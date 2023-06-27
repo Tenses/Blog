@@ -1,8 +1,0 @@
-{
-  "env": {
-    "PORT": 3000
-  },
-  "ext": "js,json",
-  "ignore": ["node_modules/**"],
-  "watch": ["./"]
-}

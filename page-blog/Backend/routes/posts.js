@@ -6,7 +6,7 @@ const sequelize = require('../db/connection');
 router.get('/', async (req, res) => {
     try {
         // Consulta a la base de datos para obtener todas las publicaciones
-        const posts = await sequelize.query('SELECT * FROM post', {
+        const posts = await sequelize.query('SELECT * FROM posts', {
             type: sequelize.QueryTypes.SELECT,
         });
         res.json(posts);
