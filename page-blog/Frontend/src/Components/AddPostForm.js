@@ -1,64 +1,78 @@
 import React, { useState } from 'react';
 
-function AddPostForm({ onSubmit }) {
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [image, setImage] = useState(null);
+function AddPostForm() {
+    const [postTitle, setPostTitle] = useState('');
+    const [postContent, setPostContent] = useState('');
+    const [imageFileName, setImageFileName] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handlePostTitleChange = (event) => {
+        setPostTitle(event.target.value);
+    };
 
-        const formData = new FormData();
-        formData.append('post_title', title);
-        formData.append('post_content', content);
-        formData.append('image', image);
+    const handlePostContentChange = (event) => {
+        setPostContent(event.target.value);
+    };
 
-        fetch('http://localhost:3000/posts', {
-            method: 'POST',
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                // Aquí puedes realizar alguna acción después de crear la publicación,
-                // como redirigir a la página del nuevo post o actualizar la lista de posts.
-                console.log(data); // Datos de la respuesta del servidor
-                onSubmit(); // Llamar a la función de éxito o limpiar el formulario
-            })
-            .catch((error) => console.error(error));
+    const handleImageFileChange = (event) => {
+        const file = event.target.files[0];
+        setImageFileName(file.name);
+    };
 
-        setTitle('');
-        setContent('');
-        setImage(null);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!postTitle || !postContent || !imageFileName) {
+            setErrorMessage('Por favor, completa todos los campos');
+            return;
+        }
+
+        setErrorMessage('');
+
+        try {
+            const response = await fetch('http://localhost:3000/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    post_title: postTitle,
+                    post_content: postContent,
+                    image_url: imageFileName,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log('Nueva publicación creada:', data.post_id);
+                setPostTitle('');
+                setPostContent('');
+                setImageFileName('');
+            } else {
+                console.error('Error al crear la publicación:', data.error);
+            }
+        } catch (error) {
+            console.error('Error al comunicarse con el servidor:', error);
+        }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <label htmlFor="title">Título:</label>
-            <input
-                type="text"
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-            />
-
-            <label htmlFor="content">Contenido:</label>
-            <textarea
-                id="content"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                required
-            ></textarea>
-
-            <label htmlFor="image">Imagen:</label>
-            <input
-                type="file"
-                id="image"
-                onChange={(e) => setImage(e.target.files[0])}
-                required
-            />
-
-            <button type="submit">Guardar</button>
+            {errorMessage && <p>{errorMessage}</p>}
+            <div>
+                <label>Título del post:</label>
+                <input type="text" value={postTitle} onChange={handlePostTitleChange} />
+            </div>
+            <div>
+                <label>Contenido del post:</label>
+                <textarea value={postContent} onChange={handlePostContentChange} />
+            </div>
+            <div>
+                <label>Imagen:</label>
+                <input type="file" accept="image/*" onChange={handleImageFileChange} />
+            </div>
+            <button type="submit">Crear Post</button>
         </form>
     );
 }

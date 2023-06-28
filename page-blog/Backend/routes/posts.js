@@ -42,16 +42,16 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-
 router.post('/', async (req, res) => {
     const { post_title, post_content, image_url } = req.body;
 
     try {
         const newPost = await sequelize.query(
-            'INSERT INTO posts (post_title, post_content, image_url) VALUES (?, ?, ?)', {
-            type: sequelize.QueryTypes.INSERT,
-            replacements: [post_title, post_content, image_url],
-        }
+            'INSERT INTO posts (post_title, post_content, image_url) VALUES (?, ?, ?)',
+            {
+                type: sequelize.QueryTypes.INSERT,
+                replacements: [post_title, post_content, image_url],
+            }
         );
 
         res.json({ message: 'Nueva publicación creada', post_id: newPost[0] });
@@ -60,7 +60,6 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Error al crear la publicación' });
     }
 });
-
 
 router.put('/:id', async (req, res) => {
     const postId = req.params.id;
@@ -88,7 +87,6 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-
 router.delete('/:id', async (req, res) => {
     const postId = req.params.id;
 
@@ -97,6 +95,7 @@ router.delete('/:id', async (req, res) => {
             replacements: [postId],
             type: sequelize.QueryTypes.SELECT,
         });
+
         if (existingPost.length === 0) {
             return res.status(404).json({ error: 'Publicación no encontrada' });
         }
@@ -114,3 +113,4 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+
