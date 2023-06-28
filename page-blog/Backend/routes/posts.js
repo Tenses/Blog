@@ -4,10 +4,18 @@ const sequelize = require('../db/connection');
 
 router.get('/', async (req, res) => {
     try {
-        const posts = await sequelize.query('SELECT * FROM posts', {
+        const posts = await sequelize.query('SELECT id, post_title, post_content, image_url FROM posts', {
             type: sequelize.QueryTypes.SELECT,
         });
-        res.json(posts);
+
+        const formattedPosts = posts.map((post) => ({
+            id: post.id,
+            post_title: post.post_title,
+            post_content: post.post_content,
+            image_url: `http://localhost:3000/images/${post.image_url}`,
+        }));
+
+        res.json(formattedPosts);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al obtener las publicaciones' });

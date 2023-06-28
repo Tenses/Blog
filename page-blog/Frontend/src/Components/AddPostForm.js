@@ -3,19 +3,32 @@ import React, { useState } from 'react';
 function AddPostForm({ onSubmit }) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newPost = {
-            title,
-            content,
-            image,
-        };
-        onSubmit(newPost);
+
+        const formData = new FormData();
+        formData.append('post_title', title);
+        formData.append('post_content', content);
+        formData.append('image', image);
+
+        fetch('http://localhost:3000/posts', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Aquí puedes realizar alguna acción después de crear la publicación,
+                // como redirigir a la página del nuevo post o actualizar la lista de posts.
+                console.log(data); // Datos de la respuesta del servidor
+                onSubmit(); // Llamar a la función de éxito o limpiar el formulario
+            })
+            .catch((error) => console.error(error));
+
         setTitle('');
         setContent('');
-        setImage('');
+        setImage(null);
     };
 
     return (
@@ -51,3 +64,4 @@ function AddPostForm({ onSubmit }) {
 }
 
 export default AddPostForm;
+
