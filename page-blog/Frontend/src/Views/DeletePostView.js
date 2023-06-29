@@ -1,18 +1,30 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import DeletePost from '../Components/DeletePost';
 
 function DeletePostView() {
     const { id } = useParams();
 
-    const handleDelete = () => {
-        console.log(`Eliminar entrada con ID: ${id}`);
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/posts/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                console.log('Publicación eliminada');
+                window.location.href = '/';
+            } else {
+                console.error('Error al eliminar la publicación');
+            }
+        } catch (error) {
+            console.error('Error al comunicarse con el servidor:', error);
+        }
     };
 
     return (
         <div>
             <h1>Eliminar entrada</h1>
-            <DeletePost onDelete={handleDelete} />
+            <button onClick={handleDelete}>Eliminar</button>
         </div>
     );
 }

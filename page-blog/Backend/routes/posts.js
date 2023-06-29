@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const sequelize = require('../db/connection');
 const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
 // gestor de archivos de imagen para cogerlos y meterlos en public/images
 const storage = multer.diskStorage({
@@ -114,9 +116,19 @@ router.delete('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Publicación no encontrada' });
         }
 
+        const imageFileName = existingPost[0].image_url;
+
         await sequelize.query('DELETE FROM posts WHERE id = ?', {
             replacements: [postId],
             type: sequelize.QueryTypes.DELETE,
+        });
+
+        // Eliminar la imagen del directorio public al borrar el post
+        const imagePath = path.join(__dirname, '..', 'public', 'images', imageFileName);
+        fs.unlink(imagePath, (error) => {
+            if (error) {
+                console.error('Error al eliminar la imagen:', error);
+            }
         });
 
         res.json({ message: 'Publicación eliminada', post_id: postId });
@@ -127,4 +139,3 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
-
