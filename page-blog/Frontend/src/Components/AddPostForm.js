@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function AddPostForm() {
+    const navigate = useNavigate();
+
     const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
     const [imageFile, setImageFile] = useState(null);
@@ -47,6 +50,7 @@ function AddPostForm() {
                 setPostTitle('');
                 setPostContent('');
                 setImageFile(null);
+                navigate('/'); // Redireccionar a HomeView
             } else {
                 console.error('Error al crear la publicación:', data.error);
             }

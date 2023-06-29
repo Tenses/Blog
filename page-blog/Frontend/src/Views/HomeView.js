@@ -12,7 +12,11 @@ function HomeView() {
     const fetchPosts = () => {
         fetch(`${url}posts`)
             .then((response) => response.json())
-            .then((data) => setPosts(data))
+            .then((data) => {
+                // Invertir el orden del array de posts
+                const reversedPosts = data.reverse();
+                setPosts(reversedPosts);
+            })
             .catch((error) => console.error(error));
     };
 

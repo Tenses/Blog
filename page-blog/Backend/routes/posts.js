@@ -85,9 +85,10 @@ router.post('/', upload.single('image'), async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', upload.single('image'), async (req, res) => {
     const postId = req.params.id;
-    const { post_title, post_content, image_url } = req.body;
+    const { post_title, post_content } = req.body;
+    let image_url = null;
 
     try {
         const existingPost = await sequelize.query('SELECT * FROM posts WHERE id = ?', {
@@ -99,17 +100,34 @@ router.put('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Publicación no encontrada' });
         }
 
-        await sequelize.query('UPDATE posts SET post_title = ?, post_content = ?, image_url = ? WHERE id = ?', {
-            replacements: [post_title, post_content, image_url, postId],
-            type: sequelize.QueryTypes.UPDATE,
+        // Verificar si se ha proporcionado una nueva imagen
+        if (req.file) {
+            image_url = req.file.filename;
+        } else {
+            image_url = existingPost[0].image_url;
+        }
+
+        await sequelize.query(
+            'UPDATE posts SET post_title = ?, post_content = ?, image_url = ? WHERE id = ?',
+            {
+                replacements: [post_title, post_content, image_url, postId],
+                type: sequelize.QueryTypes.UPDATE,
+            }
+        );
+
+        // Obtener los datos actualizados del post
+        const updatedPost = await sequelize.query('SELECT * FROM posts WHERE id = ?', {
+            replacements: [postId],
+            type: sequelize.QueryTypes.SELECT,
         });
 
-        res.json({ message: 'Publicación actualizada', post_id: postId });
+        res.json(updatedPost[0]); // Devolver los datos actualizados del post
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al actualizar la publicación' });
     }
 });
+
 
 router.delete('/:id', async (req, res) => {
     const postId = req.params.id;
