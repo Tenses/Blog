@@ -1,6 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const sequelize = require('../db/connection');
+const multer = require('multer');
+
+// gestor de archivos de imagen para cogerlos y meterlos en public/images
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'public/images');
+    },
+    filename: (req, file, cb) => {
+        const filename = `${Date.now()}_${file.originalname}`;
+        cb(null, filename);
+    },
+});
+const upload = multer({ storage });
 
 router.get('/', async (req, res) => {
     try {
@@ -42,8 +55,9 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
-    const { post_title, post_content, image_url } = req.body;
+router.post('/', upload.single('image'), async (req, res) => {
+    const { post_title, post_content } = req.body;
+    const image_url = req.file.filename;
 
     try {
         const newPost = await sequelize.query(

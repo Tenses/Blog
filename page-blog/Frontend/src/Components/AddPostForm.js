@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 function AddPostForm() {
     const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
-    const [imageFileName, setImageFileName] = useState('');
+    const [imageFile, setImageFile] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
 
     const handlePostTitleChange = (event) => {
@@ -16,13 +16,13 @@ function AddPostForm() {
 
     const handleImageFileChange = (event) => {
         const file = event.target.files[0];
-        setImageFileName(file.name);
+        setImageFile(file);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!postTitle || !postContent || !imageFileName) {
+        if (!postTitle || !postContent || !imageFile) {
             setErrorMessage('Por favor, completa todos los campos');
             return;
         }
@@ -30,16 +30,14 @@ function AddPostForm() {
         setErrorMessage('');
 
         try {
+            const formData = new FormData();
+            formData.append('post_title', postTitle);
+            formData.append('post_content', postContent);
+            formData.append('image', imageFile);
+
             const response = await fetch('http://localhost:3000/posts', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    post_title: postTitle,
-                    post_content: postContent,
-                    image_url: imageFileName,
-                }),
+                body: formData,
             });
 
             const data = await response.json();
@@ -48,7 +46,7 @@ function AddPostForm() {
                 console.log('Nueva publicación creada:', data.post_id);
                 setPostTitle('');
                 setPostContent('');
-                setImageFileName('');
+                setImageFile(null);
             } else {
                 console.error('Error al crear la publicación:', data.error);
             }
@@ -58,7 +56,7 @@ function AddPostForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
             {errorMessage && <p>{errorMessage}</p>}
             <div>
                 <label>Título del post:</label>
@@ -78,4 +76,3 @@ function AddPostForm() {
 }
 
 export default AddPostForm;
-
