@@ -55,6 +55,13 @@ function SinglePostView() {
     };
 
     const handleSave = () => {
+        // Validar si se ha adjuntado una nueva imagen
+        if (!editedPost.image) {
+            alert("adjunta una nueva imagen");
+            console.error('Debes adjuntar una imagen');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('post_title', editedPost.post_title);
         formData.append('post_content', editedPost.post_content);
@@ -72,6 +79,7 @@ function SinglePostView() {
             })
             .catch((error) => console.error(error));
     };
+
 
     const handleDelete = () => {
         fetch(`http://localhost:3000/posts/${postId}`, {

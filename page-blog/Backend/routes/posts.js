@@ -102,6 +102,15 @@ router.put('/:id', upload.single('image'), async (req, res) => {
 
         // Verificar si se ha proporcionado una nueva imagen
         if (req.file) {
+            // Eliminar la imagen anterior
+            const previousImageFileName = existingPost[0].image_url;
+            const previousImagePath = path.join(__dirname, '..', 'public', 'images', previousImageFileName);
+            fs.unlink(previousImagePath, (error) => {
+                if (error) {
+                    console.error('Error al eliminar la imagen anterior:', error);
+                }
+            });
+
             image_url = req.file.filename;
         } else {
             image_url = existingPost[0].image_url;
@@ -127,6 +136,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar la publicación' });
     }
 });
+
 
 
 router.delete('/:id', async (req, res) => {
