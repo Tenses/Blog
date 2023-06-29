@@ -17,9 +17,9 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeView />} />
           <Route path="/add-post" element={<AddPostView />} />
-          <Route path="/post/:id" element={<SinglePostView />} />
-          <Route path="/post/:id/edit" element={<EditPostView />} />
-          <Route path="/post/:id/delete" element={<DeletePostView />} />
+          <Route path="/posts/:id" element={<SinglePostView />} />
+          <Route path="/posts/:id/edit" element={<EditPostView />} />
+          <Route path="/posts/:id/delete" element={<DeletePostView />} />
         </Routes>
 
         <footer>Page-blog © {new Date().getFullYear()}</footer>
@@ -29,4 +29,5 @@ function App() {
 }
 
 export default App;
+
 

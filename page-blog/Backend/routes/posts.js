@@ -41,7 +41,7 @@ router.get('/:id', async (req, res) => {
     const postId = req.params.id;
 
     try {
-        const post = await sequelize.query('SELECT * FROM posts WHERE id = ?', {
+        const post = await sequelize.query('SELECT id, post_title, post_content, image_url FROM posts WHERE id = ?', {
             replacements: [postId],
             type: sequelize.QueryTypes.SELECT,
         });
@@ -50,12 +50,20 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Publicación no encontrada' });
         }
 
-        res.json(post[0]);
+        const formattedPost = {
+            id: post[0].id,
+            post_title: post[0].post_title,
+            post_content: post[0].post_content,
+            image_url: `http://localhost:3000/images/${post[0].image_url}`,
+        };
+
+        res.json(formattedPost);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al obtener la publicación' });
     }
 });
+
 
 router.post('/', upload.single('image'), async (req, res) => {
     const { post_title, post_content } = req.body;
