@@ -18,7 +18,7 @@ function SinglePostView() {
             .then((response) => response.json())
             .then((data) => {
                 setPost(data);
-                setEditedPost(data); // Establecer los valores editados como los valores iniciales
+                setEditedPost(data);
             })
             .catch((error) => console.error(error));
     }, [postId]);
@@ -55,17 +55,14 @@ function SinglePostView() {
     };
 
     const handleSave = () => {
-        // Validar si se ha adjuntado una nueva imagen
-        if (!editedPost.image) {
-            alert("adjunta una nueva imagen");
-            console.error('Debes adjuntar una imagen');
-            return;
-        }
-
         const formData = new FormData();
         formData.append('post_title', editedPost.post_title);
         formData.append('post_content', editedPost.post_content);
-        formData.append('image', editedPost.image);
+
+        // Verificar si se ha adjuntado una nueva imagen
+        if (editedPost.image) {
+            formData.append('image', editedPost.image);
+        }
 
         fetch(`http://localhost:3000/posts/${postId}`, {
             method: 'PUT',
@@ -74,7 +71,7 @@ function SinglePostView() {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                toggleEditMode(); // Salir del modo de edición después de guardar los cambios
+                toggleEditMode();
                 setShouldFetchPost(true);
             })
             .catch((error) => console.error(error));
@@ -88,15 +85,21 @@ function SinglePostView() {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                // Redireccionar al HomeView
                 navigate('/');
             })
             .catch((error) => console.error(error));
+        alert('El post se ha borrado.');
     };
 
     if (!post) {
         return <div>Cargando...</div>;
     }
+
+    const formatDateTime = (dateTimeString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', hour12: true };
+        const dateTime = new Date(dateTimeString);
+        return dateTime.toLocaleString('es-ES', options);
+    };
 
     return (
         <div>
@@ -122,7 +125,7 @@ function SinglePostView() {
                     <h2>{post.post_title}</h2>
                     <img src={post.image_url} alt="Post" />
                     <p>{post.post_content}</p>
-                    <p>{post.date}</p>
+                    <p>Fecha de última actualización: {formatDateTime(post.date)}</p>
                     <button onClick={toggleEditMode}>Editar</button>
                     <button onClick={handleDelete}>Borrar</button>
                 </>

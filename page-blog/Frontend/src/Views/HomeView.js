@@ -13,7 +13,6 @@ function HomeView() {
         fetch(`${url}posts`)
             .then((response) => response.json())
             .then((data) => {
-                // Invertir el orden del array de posts
                 const reversedPosts = data.reverse();
                 setPosts(reversedPosts);
             })
