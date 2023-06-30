@@ -1,0 +1,21 @@
+/* Header.css */
+
+.header-container {
+    background-color: #007bff;
+    padding: 10px;
+  }
+  
+  .header-container h1 {
+    color: #fff;
+    font-size: 24px;
+  }
+  
+  .header-container nav {
+    margin-top: 10px;
+  }
+  
+  .header-container nav a {
+    color: #fff;
+    margin-right: 10px;
+  }
+  

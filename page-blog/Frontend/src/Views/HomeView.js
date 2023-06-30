@@ -32,11 +32,15 @@ function HomeView() {
     };
 
     return (
-        <div>
-            <h1>Home</h1>
-            {posts.map((post) => (
-                <Post key={post.id} post={post} onDelete={() => handleDelete(post.id)} />
-            ))}
+        <div className="container">
+            <h1 className="text-center">Home</h1>
+            <div className="row">
+                {posts.map((post) => (
+                    <div className="col-md-4" key={post.id}>
+                        <Post post={post} onDelete={() => handleDelete(post.id)} />
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

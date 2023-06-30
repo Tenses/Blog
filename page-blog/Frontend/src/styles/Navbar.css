@@ -1,0 +1,26 @@
+/* Navbar.css */
+
+.navbar-container {
+    background-color: #000;
+    padding: 10px;
+  }
+  
+  .navbar-container a {
+    color: #fff;
+    margin-right: 10px;
+  }
+  .navbar-container .spaced {
+    margin-right: 50px;
+  }
+
+  .navbar-container .nav-link {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .navbar-container .nav-link:hover {
+    transform: scale(1.5);
+    background-color: #f8f9fa;
+    color: #6ac0df;
+  }
+  
+  

@@ -1,0 +1,40 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+/* homeview */
+
+.container {
+    margin-top: 20px;
+  }
+  
+  h1.text-center {
+    color: #333;
+  }
+  
+  .row {
+    margin-top: 20px;
+  }
+  
+  .col-md-4 {
+    margin-bottom: 20px;
+  }
+  
+/* header */
+
+header {
+    background-color: #007bff;
+    padding: 10px;
+  }
+  
+  header h1 {
+    color: #fff;
+    font-size: 24px;
+  }
+  
+  nav {
+    margin-top: 10px;
+  }
+  
+  nav a {
+    color: #fff;
+    margin-right: 10px;
+  }
+  
