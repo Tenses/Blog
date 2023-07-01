@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Post from '../Components/Post';
 import { url } from '../Utils/url';
+import '../styles/HomeView.css';
 
 function HomeView() {
     const [posts, setPosts] = useState([]);
@@ -32,11 +33,11 @@ function HomeView() {
     };
 
     return (
-        <div className="container">
-            <h1 className="text-center">Home</h1>
+        <div className="homeview-container">
+            <h1 className="text-center">Inicio</h1>
             <div className="row">
                 {posts.map((post) => (
-                    <div className="col-md-4" key={post.id}>
+                    <div className="col-md-12" key={post.id}>
                         <Post post={post} onDelete={() => handleDelete(post.id)} />
                     </div>
                 ))}

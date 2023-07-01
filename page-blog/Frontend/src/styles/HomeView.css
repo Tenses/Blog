@@ -1,0 +1,16 @@
+.homeview-container {
+    background-image: url('../Images/paisaje.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .homeview-container h1 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 48px;
+    color: #8e94bc;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }

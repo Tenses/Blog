@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import '../styles/SinglePostView.css'
 
 function SinglePostView() {
     const { id: postId } = useParams();
@@ -102,34 +103,38 @@ function SinglePostView() {
     };
 
     return (
-        <div>
-            {isEditMode ? (
-                <>
-                    <input
-                        type="text"
-                        name="post_title"
-                        value={editedPost.post_title}
-                        onChange={handleEditChange}
-                    />
-                    <input
-                        type="text"
-                        name="post_content"
-                        value={editedPost.post_content}
-                        onChange={handleEditChange}
-                    />
-                    <input type="file" accept="image/*" onChange={handleImageFileChange} />
-                    <button onClick={handleSave}>Guardar cambios</button>
-                </>
-            ) : (
-                <>
-                    <h2>{post.post_title}</h2>
-                    <img src={post.image_url} alt="Post" />
-                    <p>{post.post_content}</p>
-                    <p>Fecha de última actualización: {formatDateTime(post.date)}</p>
-                    <button onClick={toggleEditMode}>Editar</button>
-                    <button onClick={handleDelete}>Borrar</button>
-                </>
-            )}
+        <div className="container">
+            <div className="content-container">
+                {isEditMode ? (
+                    <>
+                        <input
+                            type="text"
+                            name="post_title"
+                            value={editedPost.post_title}
+                            onChange={handleEditChange}
+                        />
+                        <input
+                            type="text"
+                            name="post_content"
+                            value={editedPost.post_content}
+                            onChange={handleEditChange}
+                        />
+                        <input type="file" accept="image/*" onChange={handleImageFileChange} />
+                        <button className="btn btn-primary" onClick={handleSave}>Guardar cambios</button>
+                    </>
+                ) : (
+                    <>
+                        <h2 className="post-title">{post.post_title}</h2>
+                        <div className="image-container">
+                            <img src={post.image_url} alt="Post" className="centered-image" />
+                        </div>
+                        <p>{post.post_content}</p>
+                        <p>Fecha de última actualización: {formatDateTime(post.date)}</p>
+                        <button onClick={toggleEditMode}>Editar</button>
+                        <button onClick={handleDelete}>Borrar</button>
+                    </>
+                )}
+            </div>
         </div>
     );
 }

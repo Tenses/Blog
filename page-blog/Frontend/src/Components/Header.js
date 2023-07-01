@@ -1,15 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import '../styles/Header.css';
 
 function Header() {
     return (
-        <header className="bg-primary text-white py-3">
+        <header className="header-container" style={{ background: '#e9e9e9' }}>
             <div className="container">
-                <h1>Page-blog</h1>
-                <nav>
-                    <Link className="text-white mr-3" to="/">Inicio</Link>
-                    <Link className="text-white" to="/add-post">Añadir entrada</Link>
-                </nav>
+                <h1 className="header-title">
+                    <span className="gradient-text">Page-blog</span>
+                </h1>
             </div>
         </header>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/Post.css';
 
 function Post({ post, onDelete }) {
     const handleDelete = () => {
@@ -13,16 +14,25 @@ function Post({ post, onDelete }) {
         return dateTime.toLocaleString('es-ES', options);
     };
 
+    const truncateContent = (content, maxLength) => {
+        if (content.length <= maxLength) {
+            return content;
+        }
+        return content.substring(0, maxLength) + '...';
+    };
+
     return (
-        <article key={post.id}>
-            <Link to={`/posts/${post.id}`}>
-                <h2>{post.post_title}</h2>
-                <img src={post.image_url} alt="Imagen de entrada" />
+        <div className="post-container">
+            <Link to={`/posts/${post.id}`} className="post-link">
+                <img className="post-image" src={post.image_url} alt="Imagen de entrada" />
             </Link>
-            <p>{post.post_content.substring(0, 50)}</p>
-            <p>Fecha de última actualización: {formatDateTime(post.date)}</p>
-            <button onClick={handleDelete}>Borrar</button>
-        </article>
+            <Link to={`/posts/${post.id}`} className="post-link">
+                <h2 className="post-title">{post.post_title}</h2>
+            </Link>
+            <p className="post-content">{truncateContent(post.post_content, 50)}</p>
+            <p className="post-date">Fecha de última actualización: {formatDateTime(post.date)}</p>
+            <button className="post-delete-btn" onClick={handleDelete}>Borrar</button>
+        </div>
     );
 }
 
