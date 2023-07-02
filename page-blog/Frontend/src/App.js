@@ -4,29 +4,27 @@ import HomeView from './Views/HomeView';
 import AddPostView from './Views/AddPostView';
 import SinglePostView from './Views/SinglePostView';
 import EditPostView from './Views/EditPostView';
-import DeletePostView from './Views/DeletePostView';
 import Navbar from './Components/Navbar';
+import Header from './Components/Header';
+import Footer from './Components/Footer';
 
 function App() {
   return (
     <Router>
       <div>
-        <h1>Page-blog</h1>
+        <Header />
         <Navbar />
 
         <Routes>
           <Route path="/" element={<HomeView />} />
           <Route path="/add-post" element={<AddPostView />} />
-          <Route path="/post/:id" element={<SinglePostView />} />
-          <Route path="/post/:id/edit" element={<EditPostView />} />
-          <Route path="/post/:id/delete" element={<DeletePostView />} />
+          <Route path="/posts/:id" element={<SinglePostView />} />
+          <Route path="/posts/:id/edit" element={<EditPostView />} />
         </Routes>
-
-        <footer>Page-blog © {new Date().getFullYear()}</footer>
+        <Footer />
       </div>
     </Router>
   );
 }
 
 export default App;
-

@@ -1,5 +1,6 @@
 import React from 'react';
 import AddPostForm from '../Components/AddPostForm';
+import '../styles/AddPostView.css'
 
 function AddPostView() {
     const handleSubmit = (newPost) => {
@@ -7,7 +8,7 @@ function AddPostView() {
     };
 
     return (
-        <div>
+        <div className="container-addpostview">
             <h1>Añadir entrada</h1>
             <AddPostForm onSubmit={handleSubmit} />
         </div>

@@ -1,0 +1,17 @@
+.header-container {
+  padding: 10px;
+}
+
+.header-title {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 36px;
+  text-align: center;
+  font-style: italic;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #97a9c5, #2a2f48); 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+}
