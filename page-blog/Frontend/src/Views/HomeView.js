@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Post from '../Components/Post';
 import { url } from '../Utils/url';
 import '../styles/HomeView.css';
@@ -8,11 +8,7 @@ function HomeView() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    useEffect(() => {
-        fetchPosts();
-    }, [currentPage]);
-
-    const fetchPosts = () => {
+    const fetchPosts = useCallback(() => {
         fetch(`${url}posts?page=${currentPage}`)
             .then((response) => response.json())
             .then((data) => {
@@ -22,7 +18,11 @@ function HomeView() {
                 setTotalPages(totalPages);
             })
             .catch((error) => console.error(error));
-    };
+    }, [currentPage]);
+
+    useEffect(() => {
+        fetchPosts();
+    }, [fetchPosts]);
 
     const handleDelete = (postId) => {
         fetch(`${url}posts/${postId}`, {
