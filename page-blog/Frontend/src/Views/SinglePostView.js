@@ -60,7 +60,6 @@ function SinglePostView() {
         formData.append('post_title', editedPost.post_title);
         formData.append('post_content', editedPost.post_content);
 
-        // Verificar si se ha adjuntado una nueva imagen
         if (editedPost.image) {
             formData.append('image', editedPost.image);
         }
@@ -105,31 +104,71 @@ function SinglePostView() {
     return (
         <div className="container">
             <div className="content-container">
+                <div className="post-title-container">
+                    <div className="explanatory-text">
+                        <p>Título del post</p>
+                    </div>
+                    <h2 className="post-title text-center">
+                        {isEditMode ? (
+                            <input
+                                type="text"
+                                name="post_title"
+                                value={editedPost.post_title}
+                                onChange={handleEditChange}
+                            />
+                        ) : (
+                            post.post_title
+                        )}
+                    </h2>
+                </div>
                 {isEditMode ? (
                     <>
-                        <input
-                            type="text"
-                            name="post_title"
-                            value={editedPost.post_title}
-                            onChange={handleEditChange}
-                        />
-                        <input
-                            type="text"
-                            name="post_content"
-                            value={editedPost.post_content}
-                            onChange={handleEditChange}
-                        />
-                        <input type="file" accept="image/*" onChange={handleImageFileChange} />
-                        <button className="btn btn-primary" onClick={handleSave}>Guardar cambios</button>
+                        <div className="image-container">
+                            <div className="explanatory-text image-explanatory-text">
+                                <p>Imagen del post</p>
+                            </div>
+                            <img src={post.image_url} alt="Post" className="centered-image img-fluid" />
+                            <div className="image-upload">
+                                <input type="file" accept="image/*" onChange={handleImageFileChange} />
+                                <button className="btn btn-secondary">Adjuntar imagen</button>
+                            </div>
+                        </div>
+                        <div className="post-content-container">
+                            <div className="explanatory-text">
+                                <p>Contenido del post</p>
+                            </div>
+                            <textarea
+                                name="post_content"
+                                value={editedPost.post_content}
+                                onChange={handleEditChange}
+                                resize="both"
+                            />
+                        </div>
                     </>
                 ) : (
                     <>
-                        <h2 className="post-title">{post.post_title}</h2>
                         <div className="image-container">
-                            <img src={post.image_url} alt="Post" className="centered-image" />
+                            <div className="explanatory-text image-explanatory-text">
+                                <p>Imagen del post</p>
+                            </div>
+                            <img src={post.image_url} alt="Post" className="centered-image img-fluid" />
                         </div>
-                        <p>{post.post_content}</p>
-                        <p>Fecha de última actualización: {formatDateTime(post.date)}</p>
+                        <div className="post-content-container">
+                            <div className="explanatory-text">
+                                <p>Contenido del post</p>
+                            </div>
+                            <p className="post-content">{post.post_content}</p>
+                        </div>
+                    </>
+                )}
+                <p>Fecha de última actualización: {formatDateTime(post.date)}</p>
+                {isEditMode ? (
+                    <>
+                        <button className="btn btn-primary" onClick={handleSave}>Guardar cambios</button>
+                        <button onClick={toggleEditMode}>Cancelar</button>
+                    </>
+                ) : (
+                    <>
                         <button onClick={toggleEditMode}>Editar</button>
                         <button onClick={handleDelete}>Borrar</button>
                     </>
@@ -137,6 +176,7 @@ function SinglePostView() {
             </div>
         </div>
     );
+
 }
 
 export default SinglePostView;
