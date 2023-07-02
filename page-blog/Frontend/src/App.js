@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomeView from './Views/HomeView';
 import AddPostView from './Views/AddPostView';
 import SinglePostView from './Views/SinglePostView';
-import EditPostView from './Views/EditPostView';
 import Navbar from './Components/Navbar';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
@@ -19,7 +18,6 @@ function App() {
           <Route path="/" element={<HomeView />} />
           <Route path="/add-post" element={<AddPostView />} />
           <Route path="/posts/:id" element={<SinglePostView />} />
-          <Route path="/posts/:id/edit" element={<EditPostView />} />
         </Routes>
         <Footer />
       </div>

@@ -9,7 +9,7 @@ function AddPostView() {
 
     return (
         <div className="container-addpostview">
-            <h1>Añadir entrada</h1>
+            <h1>Añadir publicación</h1>
             <AddPostForm onSubmit={handleSubmit} />
         </div>
     );

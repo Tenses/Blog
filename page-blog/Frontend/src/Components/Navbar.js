@@ -28,7 +28,7 @@ function CustomNavbar() {
                             Inicio
                         </Nav.Link>
                         <Nav.Link as={Link} to="/add-post" onClick={toggleNavbar}>
-                            Añadir entrada
+                            Añadir publicación
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

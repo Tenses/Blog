@@ -6,11 +6,13 @@ En phpMyAdmin, crear una base de datos llamada "page-blog" e importar el archivo
 
 Dicho archivo se encuentra en el directorio original, junto a este archivo README.md
 
+### Terminales
+ Una vez instalada la bbdd y clonado el repo recomiendo abrir la terminal y dividirla en dos una para Backend Y otra para Frontend
 ### Backend
 Accedemos al directorio Backend
 
  ```
-cd Keybook/Backend
+cd page-blog/Backend
 ```
 Instalamos las dependencias:
 
@@ -22,13 +24,13 @@ Arrancamos el servidor con uno de estos dos comandos:
 node index.js  
 nodemon
 ```
-
+(recomiendo el segundo por si se efectua algun cambio o prueba)
 
 ## Frontend
 Accedemos al directorio Frontend
 
  ```
-cd Keybook/front
+cd page-blog/front
 ```
 Instalamos las dependencias:
 
@@ -39,30 +41,16 @@ Arrancamos la aplicación de React:
 ```
 npm start
 ```
-Para realizar el testeo detenemos la aplicación de react y ejecutamos lo siguiente:
-```
-npm test
-```
 
 ## Presentación del proyecto
-Para este Sprint 2 hemos adaptado el proyecto de red social que venimos trabajando durante el curso a React con Node. 
-
-- Se ha actualizado el backend con la estructura ofrecida por Express Generator para tener mayor control y orden en las rutas
-- Se han simplificado las vistas, manteniendo únicamente los elementos funcionales y eliminado los elementos decorativos de entregas anteriores
-- Se ha añadido un sistema de interacción entre usuarios a través de seguidores, así como opción de escribir y recibir reseñas de otros usuarios
-- Se ha añadido la opción de editar todos los campos del perfil en la base de datos, excepto por el email (por seguridad de la cuenta)
-- Se ha ampliado la base de datos a 20 usuarios con contraseñas encriptadas (123 para todos), así como una nueva tabla para las reseñas y las relaciones de amistad
-- Se ha realizado un pequeño testeo sobre la barra de buscar usuarios (SearchUserBar) con Mocha Chai, solo para ver que se rendericen varios de sus componentes correctamente. Se puede encontrar en la carpeta "testing" dentro de "Frontend"
-
-## Vistas y componentes de la red social
-Cada vista incluye al componente relevante, componente Footer y en algunos casos el componente NavBar. 
-Las vistas RegisterView y LoginView son de libre acceso, pero el resto están restringidas a usuarios que no hayan iniciado sesión. Sin este permiso, la ruta redirigirá a una vista de error.
-
-- NavBar: barra de navegación con rutas a las diferentes vistas a través de iconos representativos, así como opción de cerrar sesión y filtro de blanco y negro
-- Footer:  componente sencillo con nombre de los integrantes del equipo y enlace a este repositorio
-- RegisterView: formulario de registro de nuevo usuario, con validación de contraseña segura
-- LoginView: página de inicio con logo, slogan y formulario de login  
-- EditProfileView: acciso a través del icono de configuración de la NavBar, es un  formulario de edición de datos de usuario  (a excepción del email) con opción de borrar la cuenta
-- HomeView: vista que reúne varios componentes. Por un lado, muro de publicaciones dinámico de usuarios seguidos y publicaciones propias, con limitación y paginación. Por otro lado, menús laterales dinámicos de usuarios seguidos y sugerencias de amistad. Además, una pequeña tarjeta con los datos propios. Podemos acceder al perfil de los usuarios a través de sus fotos de perfil. 
-- ProfileView: vista de perfil de usuarios con datos personales, hoja de vida y funcionalidad de feedback. Esta función está limitada a una recomendación por usuario por perfil, y no es posible recomendarse a sí mismo.
-- UsersView: esta vista nos trae a todos los usuarios de la base de datos, diferenciándolos entre si ya son seguidos por nosotros o no. Además, la barra de búsqueda nos permite encontrar usuarios por nombre o email.
+-Para este blog sencillo con sistema CRUD creado con react he creado una vista principal o Homeview que funciona como feed de los post. Se lanza automaticamente y se puede acceder a ella por la navbar con el botón "inicio"
+```
+-Para añadir una publicación o post en el blog accedemos desde el botón del navbar "añadir publicación". Esto nos hará acceder a la vista addpostview, la cual tiene un formulario de creación de post con titulo, contenido e imagenes. La imagen adjuntada será copiada a backend dentro de public/images con un id correspondiente al post, luego veremos qué pasa la borrarla. Al crearse se le asigna una fecha de creación automaticamente, esta puede cmabiar al ser editado el post, cosa que tambien veremos a continuación.
+```
+-Volviendo a inicio veremos una cierta cantidad de post, incluido el ultimo que hayamos subido, el cual se pondrá el primero en la lista. Si bajamos veremos que la página tiene paginación, de manera que podremos acceder a post antiguos en las demás paginas.
+```
+-Para editar uno de estos post simplemente haremos click sobre su imagen o sobre el texto del titulo. Estos reacionan a nuestro ratón agrandandose para mostrar su reactividad. Al hacer click nos llevará a otra vista, al singlepostview. Ahí veremos el post unicamente, sin los demás post, más grande y con sus distintos elementos dentro de un contenedor con borde para que se distinga. Si damos al botón de borrar se borrará el post. Si le damos a editar se desplegarán unas areas de texto en donde escribir los cambios al titulo o al contenido y un botón de guardar para guardar los cambios y otro de cancelar. La imagen puede dejarse como está o cambiarse, si se cambia se guarda automaticamente en el backend la nueva imagen y se borra la antigua. Al guardar lso cambios tambien se actualiza la fecha de ultima actualización del post.
+```
+-Borrar el post. Se puede desde la vista del post unico o desde el home, donde podemos darle a borrar a cada post pues cada uno trae consigo un botón rojo que así lo indica. Al hacerlo no solo se borra de la base de datos todo el texto sino la imagen asociada, para evitar que quede huerfana.
+```
+-El diseño lleva bootstrap para hacerlo responsivo y alguna mediaquery donde me pareció más conveniente. La barra de navegación se ocntrae en un pequeño menú hamburguesa para pantallas pequeñas.

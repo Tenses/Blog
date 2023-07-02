@@ -47,12 +47,13 @@
 .explanatory-text {
     text-align: center;
     font-size: 14px;
-    color: #f4ecec;
+    color: #130e0e;
 }
 
 .image-explanatory-text p {
     margin: 0;
     padding: 10px;
+    color: #e1e1e1;
 }
 
 @media (max-width: 768px) {

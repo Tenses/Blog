@@ -1,16 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import EditPost from '../Components/EditPost';
 import '../styles/SinglePostView.css';
 
 function SinglePostView() {
     const { id: postId } = useParams();
     const [post, setPost] = useState(null);
     const [isEditMode, setIsEditMode] = useState(false);
-    const [editedPost, setEditedPost] = useState({
-        post_title: '',
-        post_content: '',
-        image: null,
-    });
     const [shouldFetchPost, setShouldFetchPost] = useState(false);
     const navigate = useNavigate();
 
@@ -19,7 +15,6 @@ function SinglePostView() {
             .then((response) => response.json())
             .then((data) => {
                 setPost(data);
-                setEditedPost(data);
             })
             .catch((error) => console.error(error));
     }, [postId]);
@@ -39,45 +34,6 @@ function SinglePostView() {
         setIsEditMode((prevEditMode) => !prevEditMode);
     };
 
-    const handleEditChange = (event) => {
-        const { name, value } = event.target;
-        setEditedPost((prevEditedPost) => ({
-            ...prevEditedPost,
-            [name]: value,
-        }));
-    };
-
-    const handleImageFileChange = (event) => {
-        const file = event.target.files[0];
-        setEditedPost((prevEditedPost) => ({
-            ...prevEditedPost,
-            image: file,
-        }));
-    };
-
-    const handleSave = () => {
-        const formData = new FormData();
-        formData.append('post_title', editedPost.post_title);
-        formData.append('post_content', editedPost.post_content);
-
-        if (editedPost.image) {
-            formData.append('image', editedPost.image);
-        }
-
-        fetch(`http://localhost:3000/posts/${postId}`, {
-            method: 'PUT',
-            body: formData,
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                toggleEditMode();
-                setShouldFetchPost(true);
-            })
-            .catch((error) => console.error(error));
-    };
-
-
     const handleDelete = () => {
         fetch(`http://localhost:3000/posts/${postId}`, {
             method: 'DELETE',
@@ -89,6 +45,12 @@ function SinglePostView() {
             })
             .catch((error) => console.error(error));
         alert('El post se ha borrado.');
+    };
+
+    const handleSave = (editedPost) => {
+        console.log(editedPost);
+        toggleEditMode();
+        setShouldFetchPost(true);
     };
 
     if (!post) {
@@ -104,49 +66,16 @@ function SinglePostView() {
     return (
         <div className="container">
             <div className="content-container">
-                <div className="post-title-container">
-                    <div className="explanatory-text">
-                        <p>Título del post</p>
-                    </div>
-                    <h2 className="post-title text-center">
-                        {isEditMode ? (
-                            <input
-                                type="text"
-                                name="post_title"
-                                value={editedPost.post_title}
-                                onChange={handleEditChange}
-                            />
-                        ) : (
-                            post.post_title
-                        )}
-                    </h2>
-                </div>
                 {isEditMode ? (
-                    <>
-                        <div className="image-container">
-                            <div className="explanatory-text image-explanatory-text">
-                                <p>Imagen del post</p>
-                            </div>
-                            <img src={post.image_url} alt="Post" className="centered-image img-fluid" />
-                            <div className="image-upload">
-                                <input type="file" accept="image/*" onChange={handleImageFileChange} />
-                                <button className="btn btn-secondary">Adjuntar imagen</button>
-                            </div>
-                        </div>
-                        <div className="post-content-container">
-                            <div className="explanatory-text">
-                                <p>Contenido del post</p>
-                            </div>
-                            <textarea
-                                name="post_content"
-                                value={editedPost.post_content}
-                                onChange={handleEditChange}
-                                resize="both"
-                            />
-                        </div>
-                    </>
+                    <EditPost post={post} onSave={handleSave} onCancel={toggleEditMode} />
                 ) : (
                     <>
+                        <div className="post-title-container">
+                            <div className="explanatory-text">
+                                <p>Título del post</p>
+                            </div>
+                            <h2 className="post-title text-center">{post.post_title}</h2>
+                        </div>
                         <div className="image-container">
                             <div className="explanatory-text image-explanatory-text">
                                 <p>Imagen del post</p>
@@ -159,24 +88,16 @@ function SinglePostView() {
                             </div>
                             <p className="post-content">{post.post_content}</p>
                         </div>
-                    </>
-                )}
-                <p>Fecha de última actualización: {formatDateTime(post.date)}</p>
-                {isEditMode ? (
-                    <>
-                        <button className="btn btn-primary" onClick={handleSave}>Guardar cambios</button>
-                        <button onClick={toggleEditMode}>Cancelar</button>
-                    </>
-                ) : (
-                    <>
-                        <button onClick={toggleEditMode}>Editar</button>
-                        <button onClick={handleDelete}>Borrar</button>
+                        <p>Fecha de última actualización: {formatDateTime(post.date)}</p>
+                        <div>
+                            <button onClick={toggleEditMode}>Editar</button>
+                            <button onClick={handleDelete}>Borrar</button>
+                        </div>
                     </>
                 )}
             </div>
         </div>
     );
-
 }
 
 export default SinglePostView;
