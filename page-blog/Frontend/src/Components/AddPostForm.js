@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/AddPostForm.css';
 
 function AddPostForm() {
     const navigate = useNavigate();
@@ -50,7 +51,7 @@ function AddPostForm() {
                 setPostTitle('');
                 setPostContent('');
                 setImageFile(null);
-                navigate('/'); // Redireccionar a HomeView
+                navigate('/');
             } else {
                 console.error('Error al crear la publicación:', data.error);
             }
@@ -60,21 +61,39 @@ function AddPostForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <form className="form-container" onSubmit={handleSubmit} encType="multipart/form-data">
             {errorMessage && <p>{errorMessage}</p>}
-            <div>
-                <label>Título del post:</label>
-                <input type="text" value={postTitle} onChange={handlePostTitleChange} />
+            <div className="mb-3">
+                <label htmlFor="postTitle" className="form-label">Título del post:</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="postTitle"
+                    value={postTitle}
+                    onChange={handlePostTitleChange}
+                />
             </div>
-            <div>
-                <label>Contenido del post:</label>
-                <textarea value={postContent} onChange={handlePostContentChange} />
+            <div className="mb-3">
+                <label htmlFor="postContent" className="form-label">Contenido del post:</label>
+                <textarea
+                    className="form-control"
+                    id="postContent"
+                    value={postContent}
+                    onChange={handlePostContentChange}
+                    rows={5}
+                />
             </div>
-            <div>
-                <label>Imagen:</label>
-                <input type="file" accept="image/*" onChange={handleImageFileChange} />
+            <div className="mb-3">
+                <label htmlFor="imageFile" className="form-label">Imagen:</label>
+                <input
+                    type="file"
+                    className="form-control"
+                    id="imageFile"
+                    accept="image/*"
+                    onChange={handleImageFileChange}
+                />
             </div>
-            <button type="submit">Crear Post</button>
+            <button type="submit" className="btn btn-primary submit-button">Crear Post</button>
         </form>
     );
 }

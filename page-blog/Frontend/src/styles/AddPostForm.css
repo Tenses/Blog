@@ -1,0 +1,17 @@
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .form-container label {
+    font-weight: bold;
+  }
+  
+  .form-container textarea {
+    height: 200px;
+  }
+  
+  .submit-button:hover {
+    background-color: #28a745;
+    color: #fff;
+  }  

@@ -1,24 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import '../styles/Navbar.css';
 
-function Navbar() {
+function CustomNavbar() {
+    const [expanded, setExpanded] = useState(false);
+
+    const toggleNavbar = () => {
+        setExpanded(!expanded);
+    };
+
     return (
-        <nav className="navbar-container navbar navbar-expand-lg">
-            <div className="container">
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav">
-                        <li className="nav-item spaced">
-                            <Link className="nav-link" to="/">Inicio</Link>
-                        </li>
-                        <li className="nav-item spaced">
-                            <Link className="nav-link" to="/add-post">Añadir entrada</Link>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <Navbar
+            bg="light"
+            expand="lg"
+            expanded={expanded}
+            className="navbar-container"
+        >
+            <Container>
+                <Navbar.Toggle
+                    aria-controls="basic-navbar-nav"
+                    onClick={toggleNavbar}
+                />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <Nav.Link as={Link} to="/" onClick={toggleNavbar}>
+                            Inicio
+                        </Nav.Link>
+                        <Nav.Link as={Link} to="/add-post" onClick={toggleNavbar}>
+                            Añadir entrada
+                        </Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 }
 
-export default Navbar;
+export default CustomNavbar;

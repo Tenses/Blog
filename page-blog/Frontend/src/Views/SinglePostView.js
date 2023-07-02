@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../styles/SinglePostView.css'
+import '../styles/SinglePostView.css';
 
 function SinglePostView() {
     const { id: postId } = useParams();

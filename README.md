@@ -1,4 +1,4 @@
-# Sprint 2: Red Social con React y Node - Keybook 
+# Prueba Blog CRUD
 
 ## Pasos para arrancar el proyecto
 ### Base de datos
