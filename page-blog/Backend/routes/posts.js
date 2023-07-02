@@ -18,8 +18,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.get('/', async (req, res) => {
+    const page = parseInt(req.query.page) || 1; // Obtén el número de página de los parámetros de consulta (por ejemplo, /?page=2)
+    const postsPerPage = 4; // Define el número de posts por página según tus necesidades
+
     try {
-        const posts = await sequelize.query('SELECT id, post_title, post_content, image_url, date FROM posts', {
+        const offset = (page - 1) * postsPerPage; // Calcula el offset en función de la página actual
+
+        const postsCount = await sequelize.query('SELECT COUNT(*) AS count FROM posts', {
+            type: sequelize.QueryTypes.SELECT,
+        });
+        const totalPosts = postsCount[0].count;
+
+        const posts = await sequelize.query('SELECT id, post_title, post_content, image_url, date FROM posts ORDER BY id DESC LIMIT :limit OFFSET :offset', {
+            replacements: { limit: postsPerPage, offset },
             type: sequelize.QueryTypes.SELECT,
         });
 
@@ -31,12 +42,17 @@ router.get('/', async (req, res) => {
             date: post.date,
         }));
 
-        res.json(formattedPosts);
+        res.json({
+            currentPage: page,
+            totalPages: Math.ceil(totalPosts / postsPerPage),
+            posts: formattedPosts,
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al obtener las publicaciones' });
     }
 });
+
 
 router.get('/:id', async (req, res) => {
     const postId = req.params.id;
@@ -102,10 +118,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
         if (existingPost.length === 0) {
             return res.status(404).json({ error: 'Publicación no encontrada' });
         }
-
-        // Verificar si se ha proporcionado una nueva imagen
         if (req.file) {
-            // Eliminar la imagen anterior
             const previousImageFileName = existingPost[0].image_url;
             const previousImagePath = path.join(__dirname, '..', 'public', 'images', previousImageFileName);
             fs.unlinkSync(previousImagePath);
@@ -123,7 +136,6 @@ router.put('/:id', upload.single('image'), async (req, res) => {
             }
         );
 
-        // Obtener los datos actualizados del post
         const updatedPost = await sequelize.query('SELECT * FROM posts WHERE id = ?', {
             replacements: [postId],
             type: sequelize.QueryTypes.SELECT,
@@ -157,8 +169,6 @@ router.delete('/:id', async (req, res) => {
             replacements: [postId],
             type: sequelize.QueryTypes.DELETE,
         });
-
-        // Eliminar la imagen del directorio public al borrar el post
         const imagePath = path.join(__dirname, '..', 'public', 'images', imageFileName);
         fs.unlink(imagePath, (error) => {
             if (error) {

@@ -5,17 +5,21 @@ import '../styles/HomeView.css';
 
 function HomeView() {
     const [posts, setPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         fetchPosts();
-    }, []);
+    }, [currentPage]);
 
     const fetchPosts = () => {
-        fetch(`${url}posts`)
+        fetch(`${url}posts?page=${currentPage}`)
             .then((response) => response.json())
             .then((data) => {
-                const reversedPosts = data.reverse();
-                setPosts(reversedPosts);
+                const { currentPage, totalPages, posts } = data;
+                setPosts(posts);
+                setCurrentPage(currentPage);
+                setTotalPages(totalPages);
             })
             .catch((error) => console.error(error));
     };
@@ -32,6 +36,10 @@ function HomeView() {
             .catch((error) => console.error(error));
     };
 
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
     return (
         <div className="homeview-container">
             <h1 className="text-center">Inicio</h1>
@@ -40,6 +48,18 @@ function HomeView() {
                     <div className="col-md-12" key={post.id}>
                         <Post post={post} onDelete={() => handleDelete(post.id)} />
                     </div>
+                ))}
+            </div>
+            <div className="pagination">
+                <div className="pagination-text">Página {currentPage} de {totalPages}</div>
+                {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+                    <button
+                        key={pageNumber}
+                        className={pageNumber === currentPage ? 'active' : ''}
+                        onClick={() => handlePageChange(pageNumber)}
+                    >
+                        {pageNumber}
+                    </button>
                 ))}
             </div>
         </div>

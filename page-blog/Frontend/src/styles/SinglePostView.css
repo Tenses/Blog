@@ -28,12 +28,12 @@
 }
 
 .centered-image {
-    width: 800px; 
+    max-width: 100%;
     height: auto;
     border: 10px solid #ccc;
     margin-top: 20px;
     margin-bottom: 20px;
-}
+  }
 
 .post-content-container {
     border: 10px solid #ccc;
@@ -47,10 +47,33 @@
 .explanatory-text {
     text-align: center;
     font-size: 14px;
-    color: #888;
+    color: #f4ecec;
 }
 
 .image-explanatory-text p {
     margin: 0;
     padding: 10px;
 }
+
+@media (max-width: 768px) {
+  
+    .post-title {
+        font-size: 14px;
+    }
+  
+    .centered-image {
+      width: 100%;
+    }
+  
+    .post-content-container {
+        text-align: center;
+    }
+  
+    .post-content {
+        font-size: 14px;
+    }
+  
+    .explanatory-text {
+        font-size: 8px;
+    }
+  }
