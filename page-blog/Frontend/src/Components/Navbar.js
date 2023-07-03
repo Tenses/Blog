@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import '../styles/Navbar.css';
+import { FaBars } from 'react-icons/fa';
 
 function CustomNavbar() {
     const [expanded, setExpanded] = useState(false);
@@ -21,7 +22,10 @@ function CustomNavbar() {
                 <Navbar.Toggle
                     aria-controls="basic-navbar-nav"
                     onClick={toggleNavbar}
-                />
+                    bg="ligth"
+                >
+                    <FaBars className="hamburger-icon" />
+                </Navbar.Toggle>
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">
                         <Nav.Link as={Link} to="/" onClick={toggleNavbar}>
