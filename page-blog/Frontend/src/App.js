@@ -10,17 +10,14 @@ import Footer from './Components/Footer';
 function App() {
   return (
     <Router>
-      <div>
-        <Header />
-        <Navbar />
-
-        <Routes>
-          <Route path="/" element={<HomeView />} />
-          <Route path="/add-post" element={<AddPostView />} />
-          <Route path="/posts/:id" element={<SinglePostView />} />
-        </Routes>
-        <Footer />
-      </div>
+      <Header />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomeView />} />
+        <Route path="/add-post" element={<AddPostView />} />
+        <Route path="/posts/:id" element={<SinglePostView />} />
+      </Routes>
+      <Footer />
     </Router>
   );
 }

@@ -12,7 +12,7 @@ function CustomNavbar() {
 
     return (
         <Navbar
-            bg="light"
+            bg="dark"
             expand="lg"
             expanded={expanded}
             className="navbar-container"

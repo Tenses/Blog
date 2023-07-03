@@ -18,11 +18,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.get('/', async (req, res) => {
-    const page = parseInt(req.query.page) || 1; // Obtén el número de página de los parámetros de consulta (por ejemplo, /?page=2)
-    const postsPerPage = 4; // Define el número de posts por página según tus necesidades
+    const page = parseInt(req.query.page) || 1;
+    const postsPerPage = 4;
 
     try {
-        const offset = (page - 1) * postsPerPage; // Calcula el offset en función de la página actual
+        const offset = (page - 1) * postsPerPage;
 
         const postsCount = await sequelize.query('SELECT COUNT(*) AS count FROM posts', {
             type: sequelize.QueryTypes.SELECT,
@@ -52,7 +52,6 @@ router.get('/', async (req, res) => {
         res.status(500).json({ error: 'Error al obtener las publicaciones' });
     }
 });
-
 
 router.get('/:id', async (req, res) => {
     const postId = req.params.id;
@@ -147,8 +146,6 @@ router.put('/:id', upload.single('image'), async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar la publicación' });
     }
 });
-
-
 
 router.delete('/:id', async (req, res) => {
     const postId = req.params.id;

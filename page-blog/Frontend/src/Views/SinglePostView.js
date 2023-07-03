@@ -64,7 +64,7 @@ function SinglePostView() {
     };
 
     return (
-        <div className="container">
+        <div className="container-singlepostview">
             <div className="content-container">
                 {isEditMode ? (
                     <EditPost post={post} onSave={handleSave} onCancel={toggleEditMode} />
@@ -88,7 +88,7 @@ function SinglePostView() {
                             </div>
                             <p className="post-content">{post.post_content}</p>
                         </div>
-                        <p>Fecha de última actualización: {formatDateTime(post.date)}</p>
+                        <p className="post-updated-date">Fecha de última actualización: {formatDateTime(post.date)}</p>
                         <div>
                             <button onClick={toggleEditMode}>Editar</button>
                             <button onClick={handleDelete}>Borrar</button>

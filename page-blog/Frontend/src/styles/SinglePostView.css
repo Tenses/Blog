@@ -1,6 +1,16 @@
+.container-singlepostview{
+background-image: url('../Images/paisaje2.jpg');
+  background-size: cover;
+  background-position: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .post-title-container {
     border: 10px solid #ccc;
     padding: 10px;
+    background-color: #f7f0f080;
 }
 
 .post-title {
@@ -38,6 +48,7 @@
 .post-content-container {
     border: 10px solid #ccc;
     padding: 10px;
+    background-color: #f7f0f080;
 }
 
 .post-content {
@@ -47,7 +58,7 @@
 .explanatory-text {
     text-align: center;
     font-size: 14px;
-    color: #130e0e;
+    color: #eeecec;
 }
 
 .image-explanatory-text p {
@@ -55,6 +66,12 @@
     padding: 10px;
     color: #e1e1e1;
 }
+
+.post-updated-date {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #ccc;
+    font-size: 16px;
+  }
 
 @media (max-width: 768px) {
   

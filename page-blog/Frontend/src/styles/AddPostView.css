@@ -4,4 +4,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-image: url('../Images/paisaje.jpg');
+    background-size: cover;
+    background-position: center;
   }  

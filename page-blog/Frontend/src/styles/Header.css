@@ -1,5 +1,6 @@
 .header-container {
-  padding: 10px;
+  padding: 0.5%;
+  background: linear-gradient(to top,rgba(0, 6, 15, 0.817), rgba(39, 123, 226, 0.922));
 }
 
 .header-title {
@@ -11,7 +12,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(to right, #97a9c5, #2a2f48); 
+  background: linear-gradient(to right, #f7f7f7, #d4d5d0); 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; 
 }
